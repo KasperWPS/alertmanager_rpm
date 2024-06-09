@@ -1,0 +1,17 @@
+[Unit]
+Description=Alertmanager for Prometheus
+Documentation=https://prometheus.io/docs/alerting/alertmanager/
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+User=prometheus
+EnvironmentFile=/etc/default/prometheus-alertmanager
+ExecStart=/usr/bin/prometheus-alertmanager $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
